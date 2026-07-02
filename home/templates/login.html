@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+<main>
+  
+    
+    <!-- Login Tab -->
+    <div class="tab-content active" id="login">
+      <div class="form-container">
+        <h2 class="form-title">Login to Your Account</h2>
+
+        <form id="loginForm" method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="loginEmail" class="form-label">Email Address</label>
+            <input type="email" name="username" id="loginEmail" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="loginPassword" class="form-label">Password</label>
+            <input type="password" name="password" id="loginPassword" class="form-input" required>
+          </div>
+          
+          {% if message %}
+                <div class="errorMessage">{{ message }}</div> 
+            {% endif %}
+
+          <div class="form-actions">
+            <button type="submit" class="btn primary-btn">Login</button>
+          </div>
+          
+          <div class="form-footer">
+            <p>Don't have an account? <a href="{% url 'signup' %}" class="tab-link" data-tab="signup">Sign Up</a></p>
+            <!-- <p><a href="#">Forgot your password?</a></p> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    {% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'script.js' %}"></script>
+    <script>        
+        // Form Validation
+        const loginForm = document.getElementById('loginForm');
+        
+        if (loginForm) {
+          loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Here you would typically send this to your backend
+            alert(`Login attempt with email: ${email}`);
+          });
+        }
+
+    </script>
+{% endblock %}

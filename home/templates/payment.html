@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+<br><br><br><br><br><br>
+
+<!-- Payment Form -->
+<form id="paymentForm" method="POST">
+    {% csrf_token %}
+</form>
+
+{% endblock %}
+
+{% block script %}
+<!-- Razorpay Checkout Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    const options = {
+        key: "{{ razorpay_key_id }}",  // Razorpay key (test/live based on DEBUG)
+        amount: "{{ order.total_amount|floatformat:0|add:'00' }}", // in paise
+        currency: "INR",
+        name: "StyleAura",
+        description: "Payment for Order #{{ order.id }}",
+        image: "{% static 'images/favicon.ico' %}",  // Optional: Replace with your store logo URL
+        order_id: "{{ order.order_id }}",
+        prefill: {
+            name: "{{ request.user.get_full_name }}",
+            email: "{{ request.user.email }}"
+        },
+        theme: {
+            color: "#3399cc"
+        },
+        handler: function (response) {
+            // On successful payment, send response data to backend
+            const form = document.getElementById('paymentForm');
+            form.innerHTML += `
+                <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
+                <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
+                <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
+            `;
+            form.action = "{% url 'payment_success' %}";
+            form.submit();
+        }
+    };
+
+    // Launch Razorpay popup automatically when page loads
+    window.onload = function () {
+        const rzp = new Razorpay(options);
+        rzp.open();
+    };
+</script>
+{% endblock %}

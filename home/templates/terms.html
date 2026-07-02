@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="container policy-container">
+    <h1 class="title">Terms & Conditions</h1>
+    <p class="policy-text">
+        Welcome to <b>StyleAuras</b>. By accessing and using our website <b>StyleAura.shop</b>, you agree to comply with and be bound by these Terms and Conditions. Please read them carefully.
+    </p>
+
+    <hr>
+
+    <h3 class="section-title">1. Use of Website</h3>
+    <p class="policy-text">By using our website, you agree to:</p>
+    <ul class="policy-list">
+        <li>Use the website for lawful purposes only.</li>
+        <li>Not engage in fraudulent, abusive, or harmful activities.</li>
+        <li>Ensure that any information you provide is accurate and up-to-date.</li>
+    </ul>
+
+    <hr>
+
+    <h3 class="section-title">2. Account Registration</h3>
+    <p class="policy-text">To make purchases, you may need to create an account. You are responsible for:</p>
+    <ul class="policy-list">
+        <li>Maintaining the confidentiality of your account details.</li>
+        <li>Notifying us immediately of unauthorized access or security breaches.</li>
+    </ul>
+
+    <hr>
+
+    <h3 class="section-title">3. Product & Service Information</h3>
+    <p class="policy-text">We strive to ensure product descriptions and prices are accurate but do not guarantee complete accuracy. We reserve the right to modify product details at any time.</p>
+
+    <hr>
+
+    <h3 class="section-title">4. Payments & Transactions</h3>
+    <p class="policy-text">All transactions are processed securely through third-party payment gateways. We do not store your payment information.</p>
+
+    <hr>
+
+    <h3 class="section-title">5. Shipping & Delivery</h3>
+    <p class="policy-text">Estimated delivery times are provided for convenience but are not guaranteed. We are not liable for shipping delays caused by third parties.</p>
+
+    <hr>
+
+    <h3 class="section-title">6. Returns & Refunds</h3>
+    <p class="policy-text">Our return and refund policy can be found here. Please read it before making a purchase.</p>
+
+    <hr>
+
+    <h3 class="section-title">7. Limitation of Liability</h3>
+    <p class="policy-text">We are not responsible for any direct, indirect, or incidental damages arising from the use of our website or products.</p>
+
+    <hr>
+
+    <h3 class="section-title">8. Changes to Terms</h3>
+    <p class="policy-text">We may update these Terms at any time. The latest version will be posted on our website.</p>
+
+    <hr>
+
+    <h3 class="section-title">9. Contact Us</h3>
+    <p class="policy-text">For any questions, contact us at:</p>
+    <a href="mailto:market@StyleAura.shop" class="policy-link">market@StyleAura.shop</a><br>
+    <span>+91 99999-99999</span>
+</div>
+
+<style>
+    .policy-container {
+    margin-top: 100px;
+    max-width: 90%;
+    width: 50vw;
+    padding: 20px;
+    text-align: justify;
+}
+
+.section-title {
+    margin-top: 30px; /* space above title */
+    margin-bottom: 10px; /* reduce space after title */
+    font-size: 1.5rem;
+}
+
+.policy-text {
+    margin-top: 0; /* remove top margin so it's tight below the title */
+    margin-bottom: 10px;
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #333;
+}
+
+.policy-list,
+.policy-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.policy-link {
+    color: #007bff;
+    text-decoration: none;
+}
+.policy-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .policy-container {
+        width: 90%;
+        padding: 15px;
+        font-size: 0.95rem;
+        text-align: left;
+    }
+    .section-title {
+        font-size: 1.25rem;
+    }
+}
+
+</style>
+
+{% endblock %}

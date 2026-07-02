@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-image">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <h1>Style Aura</h1>
+          <p>Your gateway to exclusive fashion</p>
+          <a href="{% url 'allProducts' %}" class="btn primary-btn">Shop Now</a>
+        </div>
+      </div>
+      
+    </section>
+
+    <!-- Spotlight Sections -->
+    <section class="spotlight-section">
+      <div class="container">
+        <h2 class="section-title">Our Collections</h2>
+        <div class="spotlight-grid">
+          <!-- Best Sellers -->
+          <a href="{% url 'bestSellers' %}" class="spotlight-item">
+            <div class="spotlight-image-container">
+              <img src="{% static 'images/bestSellers.jpg' %}" alt="Best Sellers">
+              <div class="spotlight-overlay"></div>
+              <h3 class="spotlight-title">Best Sellers</h3>
+            </div>
+          </a>
+          <!-- New Arrivals -->
+          <a href="{% url 'newArrivals' %}" class="spotlight-item">
+            <div class="spotlight-image-container">
+              <img src="{% static 'images/newArrivals.jpg' %}" alt="New Arrivals">
+              <div class="spotlight-overlay"></div>
+              <h3 class="spotlight-title">New Arrivals</h3>
+            </div>
+          </a>
+          <!-- Limited time deals -->
+          <a href="{% url 'limitedDrops' %}" class="spotlight-item">
+            <div class="spotlight-image-container">
+              <img src="{% static 'images/limitedDrops.jpg' %}" alt="Limited Drops">
+              <div class="spotlight-overlay"></div>
+              <h3 class="spotlight-title">Limited Drops</h3>
+            </div>
+          </a>
+          <!-- Special Offers -->
+          <a href="{% url 'specialOffers' %}" class="spotlight-item">
+            <div class="spotlight-image-container">
+              <img src="{% static 'images/specialOffers.jpg' %}" alt="Special Offers">
+              <div class="spotlight-overlay"></div>
+              <h3 class="spotlight-title">Special Offers</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <!-- <section class="featured-products-section">
+      <div class="container">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="products-grid">
+          <div class="product-card">
+            <div class="product-image">
+              <img src="https://via.placeholder.com/300x400?text=Product+1" alt="Product 1">
+            </div>
+            <div class="product-info">
+              <h3 class="product-name">Product Name</h3>
+              <p class="product-category">Category</p>
+              <div class="product-footer">
+                <span class="product-price">$99.99</span>
+                <button class="cart-add-btn">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+            </div>
+          </div> -->
+
+
+        <div class="view-all-container">
+          <a href="{% url 'brandlist' %}" class="btn secondary-btn">Shop By Brand</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}{{ listing.name }}{% endblock %}
+
+{% block body %}
+<main>
+  <section class="product-detail">
+    <div class="container">
+      <h1>{{ listing.name }}</h1>
+      <p>Brand: {{ listing.brand.name }}</p>
+      <p>Price: ₹{{ listing.final_price }}</p>
+      <p>{{ listing.description }}</p>
+
+      {% if listing.colors.all %}
+        <p>Colors:</p>
+        {% for color in listing.colors.all %}
+          <span style="background-color: {{ color.hexCode }}; padding: 5px; border:1px solid #000;">&nbsp;</span>
+        {% endfor %}
+      {% endif %}
+
+      {% if listing.sizes.all %}
+        <p>Sizes:</p>
+        {% for size in listing.sizes.all %}
+          <span>{{ size.size_label }}</span>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% endblock %}

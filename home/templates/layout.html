@@ -1,0 +1,267 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>{% block title %}StyleAuras{% endblock %}</title>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="{% static 'styles.css' %}" rel="stylesheet">
+        
+        <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+        <link rel="stylesheet" href="https://cashfree.com/assets/element/cf-element.css">
+        
+
+        {% block style %}{% endblock %}
+        {% block script %}
+            
+        {% endblock %}
+        
+    </head>
+
+
+
+    <body>
+
+        <header class="header">
+            <!-- Primary Navbar - Always visible -->
+            <div class="primary-navbar">
+              <div class="container">
+                <!-- Mobile menu button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                  <i class="fas fa-bars"></i>
+                </button>
+                
+                <!-- Left section - empty on mobile, logo centered -->
+                <div class="left-section"></div>
+                
+                <!-- Center section - Logo -->
+                <div class="center-section">
+                  <a href="{% url 'index' %}" class="logo">
+                    <img src="{% static 'images/logoTransparent.png' %}" alt="Store Logo">
+                  </a>
+                </div>
+                
+                <!-- Right section - Search, Profile, Cart -->
+                <div class="right-section">
+                  <div class="search-container" id="searchContainer">
+                    <form method="post" action="{% url 'search_results'%}">
+                        {% csrf_token %}
+                        <input type="text" name="q" placeholder="Search for products, brands and more">
+                    </form>
+                </div>
+                
+                <!-- Search Icon -->
+                <i class="search-icon fas fa-search" id="searchIcon"></i>
+                  
+                  
+                  <!-- <a  class="icon-btn profile-btn">
+                    <i class="fas fa-user"></i>
+                  </a> -->
+                  <div class="profile-dropdown">
+                    <a class="icon-btn profile-btn">
+                      <i class="fas fa-user"></i>
+                    </a>
+                    <div class="dropdown-menu profile-menu">
+                      <ul class="profile-menu-list">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'orders' %}">My Orders</a></li>
+                            <li><a href="{% url 'wishlist' %}">My Wishlist</a></li>
+                            <li><a href="{% url 'FAQ' %}">Contact Us</a></li>
+                            <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login or Signup</a></li>
+                            <hr>
+                            <li><a href="{% url 'orders' %}">My Orders</a></li>
+                            <li><a href="{% url 'wishlist' %}">My Wishlist</a></li>
+                            <li><a href="{% url 'FAQ' %}">Contact Us</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+
+
+                  <a href="{% url 'wishlist' %}" class="icon-btn wishlist-btn">
+                    <i class="fas fa-heart"></i>
+                  </a>
+                  <a href="{% url 'cart' %}" class="icon-btn cart-btn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">{{ cart_items_count }}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+
+            <!-- Secondary Navbar - Categories, disappears on scroll -->
+            <div class="secondary-navbar" id="secondaryNavbar">
+              <div class="container">
+                <nav class="categories-nav">
+                  <ul class="categories-list">
+                    <li class="category-item" data-category="men">
+                      <a href="{% url 'category' 'male' %}" class="category-link">Men <i class="fas fa-chevron-down"></i></a>
+                      <div class="dropdown-menu">
+                        <ul class="subcategory-list">
+                          <li><a href="{% url 'productType' 'male' 'tshirt' %}">T-Shirt</a></li>
+                          <li><a href="{% url 'productType' 'male' 'shirt' %}">Shirt</a></li>
+                          <li><a href="{% url 'productType' 'male' 'hoodie' %}">hoodie</a></li>
+                          <li><a href="{% url 'productType' 'male' 'trousers' %}">Trouser</a></li>
+                          <li><a href="{% url 'productType' 'male' 'pants' %}">Pant</a></li>
+                          <li><a href="{% url 'productType' 'male' 'shorts' %}">Short</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li class="category-item" data-category="women">
+                      <a href="{% url 'category' 'female' %}" class="category-link">Women <i class="fas fa-chevron-down"></i></a>
+                      <div class="dropdown-menu">
+                        <ul class="subcategory-list">
+                          <li><a href="{% url 'productType' 'female' 'tshirt' %}">T-Shirt</a></li>
+                          <li><a href="{% url 'productType' 'female' 'shirt' %}">Shirt</a></li>
+                          <li><a href="{% url 'productType' 'female' 'hoodie' %}">hoodie</a></li>
+                          <li><a href="{% url 'productType' 'female' 'trousers' %}">Trouser</a></li>
+                          <li><a href="{% url 'productType' 'female' 'dress' %}">Dress</a></li>
+                          <li><a href="{% url 'productType' 'female' 'top' %}">Top</a></li>
+                          <li><a href="{% url 'productType' 'female' 'pants' %}">Pant</a></li>
+                          <li><a href="{% url 'productType' 'female' 'shorts' %}">Short</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li class="category-item" data-category="women">
+                      <a href="{% url 'category' 'accessories' %}" class="category-link">Accessories <i class="fas fa-chevron-down"></i></a>
+                      <div class="dropdown-menu">
+                        <ul class="subcategory-list">
+                          <li><a href="{% url 'productType' 'accessories' 'bags' %}">Bags</a></li>
+                          <li><a href="{% url 'productType' 'accessories' 'jewellery' %}">Jewellery</a></li>
+                          <li><a href="{% url 'productType' 'accessories' 'cap' %}">Cap</a></li>
+                          <li><a href="{% url 'productType' 'accessories' 'belt' %}">Belt</a></li>
+                          <li><a href="{% url 'productType' 'accessories' 'watch' %}">Watch</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+
+            
+            <!-- Mobile menu -->
+            <div class="mobile-menu" id="mobileMenu">
+              <nav>
+                <ul class="categories-list">
+                  <li class="category-item" data-category="men">
+                    <a href="{% url 'category' 'male' %}" class="category-link">Men <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                      <ul class="subcategory-list">
+                        <li><a href="{% url 'productType' 'male' 'tshirt' %}">T-Shirt</a></li>
+                        <li><a href="{% url 'productType' 'male' 'shirt' %}">Shirt</a></li>
+                          <li><a href="{% url 'productType' 'male' 'hoodie' %}">hoodie</a></li>
+                        <li><a href="{% url 'productType' 'male' 'trousers' %}">Trouser</a></li>
+                        <li><a href="{% url 'productType' 'male' 'pants' %}">Pant</a></li>
+                        <li><a href="{% url 'productType' 'male' 'shorts' %}">Short</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="category-item" data-category="women">
+                    <a href="{% url 'category' 'female' %}" class="category-link">Women <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                      <ul class="subcategory-list">
+                        <li><a href="{% url 'productType' 'female' 'tshirt' %}">T-Shirt</a></li>
+                        <li><a href="{% url 'productType' 'female' 'shirt' %}">Shirt</a></li>
+                          <li><a href="{% url 'productType' 'female' 'hoodie' %}">hoodie</a></li>
+                        <li><a href="{% url 'productType' 'female' 'trousers' %}">Trouser</a></li>
+                        <li><a href="{% url 'productType' 'female' 'dress' %}">Dress</a></li>
+                        <li><a href="{% url 'productType' 'female' 'top' %}">Top</a></li>
+                        <li><a href="{% url 'productType' 'female' 'pants' %}">Pant</a></li>
+                        <li><a href="{% url 'productType' 'female' 'shorts' %}">Short</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="category-item" data-category="women">
+                    <a href="{% url 'category' 'accessories' %}" class="category-link">Accessories <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                      <ul class="subcategory-list">
+                        <li><a href="{% url 'productType' 'accessories' 'bags' %}">Bags</a></li>
+                        <li><a href="{% url 'productType' 'accessories' 'jewellery' %}">Jewellery</a></li>
+                        <li><a href="{% url 'productType' 'accessories' 'cap' %}">Cap</a></li>
+                        <li><a href="{% url 'productType' 'accessories' 'belt' %}">Belt</a></li>
+                        <li><a href="{% url 'productType' 'accessories' 'watch' %}">Watch</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </header>
+
+
+
+
+          
+
+        <div class="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+
+
+
+
+        <footer class="footer">
+            <div class="container">
+              <div class="footer-grid">
+                
+        
+                <!-- Quick Links -->
+                <div class="footer-column">
+                  <h3 class="footer-title">Quick Links</h3>
+                  <ul class="footer-links">
+                    <li><a href="{% url 'aboutUs' %}">About Us</a></li>
+                    <li><a href="{% url 'termsAndConditions' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'FAQ' %}">FAQ</a></li>
+                    <li><a href="{% url 'returnExchangePolicy' %}">Return And Exchange Policy</a></li>
+                  </ul>
+                </div>
+        
+                <!-- Contact Us -->
+                <div class="footer-column">
+                  <h3 class="footer-title">Contact Us</h3>
+                  <ul class="contact-info">
+                    <!-- <li>
+                      <i class="fas fa-map-marker-alt"></i>
+                      <span>123 Fashion Street, New York, NY 10001</span>
+                    </li> -->
+                    <li>
+                      <i class="fas fa-phone"></i>
+                      <span>+91 99999-99999</span>
+                    </li>
+                    <li>
+                      <i class="fas fa-envelope"></i>
+                      <span><a href="mailto:maret@StyleAura.shop" class="link">market@StyleAura.shop</a></span>
+                    </li>
+                  </ul>
+                </div>
+        
+              
+              </div>
+        
+              <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span>StyleAura Store. All rights reserved by  Gul Kapoor.</p>
+               
+              </div>
+            </div>
+          </footer>
+        
+
+
+    </body>
+    <script src="{% static 'script.js' %}"></script>
+
+
+    
+</html>

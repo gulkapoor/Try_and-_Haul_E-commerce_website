@@ -1,0 +1,333 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+  <main>
+    <section class="brand-listing">
+      <div class="container">
+        <div class="brand-header">
+          <h1 class="brand-title">Shop by Brand</h1>
+          <p class="brand-subtitle">Discover your favorite brands and explore their collections</p>
+        </div>
+        
+        <!-- Brand Grid -->
+        <div class="brand-grid" id="brandGrid">
+          <!-- Brand 1: Nike -->
+           {% for brand in brands %}
+            
+            <a href="{% url 'brand' brand.slug %}">
+                <div class="brand-card" data-id="{{ brand.id }}" data-category="">
+                    <div class="brand-card-inner">
+                      <div class="brand-logo">
+                        {% if brand.logo %}
+                            <img src="{{ brand.logo.url }}" alt="{{ brand.name }} logo">
+                        {% else %}
+                            <img src="" alt="{{ brand.name }} logo">
+                        {% endif %}
+                      </div>
+                      <div class="brand-info">
+                        <h3 class="brand-name">{{ brand.name }}</h3>
+                        <!-- <p class="brand-category">Sportswear</p> -->
+                        <!-- {% if brand.about %}
+                            <p class="brand-description">{{ brand.about }}</p>
+                        {% endif %} -->
+                          <div class="brand-products">{{ brand.listing_set.count }} products</div>
+                      </div>
+                    </div>
+                    {% if brand.IsFeatured %}
+                        <div class="featured-badge">Featured</div>
+                    {% endif %}
+                  </div>
+            </a>
+           
+           {% endfor %}
+          
+          
+        
+        <!-- No Results Message (hidden by default) -->
+        <div class="no-results" id="noResults">
+          <i class="fas fa-search"></i>
+          <h3>No Brands Found</h3>
+          <p>We couldn't find any brands matching your search criteria.</p>
+          <button class="btn secondary-btn" id="resetFiltersBtn">Reset Filters</button>
+        </div>
+        
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set current year in footer
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+      
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+          mobileMenu.classList.toggle('active');
+          
+          // Toggle icon between bars and X
+          const icon = mobileMenuBtn.querySelector('i');
+          if (icon.classList.contains('fa-bars')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        });
+      }
+      
+      // Hide secondary navbar on scroll
+      const secondaryNavbar = document.getElementById('secondaryNavbar');
+      let lastScrollTop = 0;
+      
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 50) {
+          secondaryNavbar.classList.add('hidden');
+        } else {
+          secondaryNavbar.classList.remove('hidden');
+        }
+        
+        lastScrollTop = scrollTop;
+      });
+      
+      // Brand selection functionality
+      const brandCheckboxes = document.querySelectorAll('.brand-select-checkbox');
+      const selectedBrandsList = document.getElementById('selectedBrandsList');
+      const noBrandsSelected = document.getElementById('noBrandsSelected');
+      const selectedCount = document.getElementById('selectedCount');
+      const clearAllBtn = document.getElementById('clearAllBtn');
+      const continueBtn = document.getElementById('continueBtn');
+      
+      // Selected brands array
+      let selectedBrands = [];
+      
+      // Add event listeners to checkboxes
+      brandCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const brandCard = this.closest('.brand-card');
+          const brandId = parseInt(brandCard.getAttribute('data-id'));
+          const brandName = brandCard.querySelector('.brand-name').textContent;
+          
+          if (this.checked) {
+            // Add to selected brands
+            if (!selectedBrands.some(brand => brand.id === brandId)) {
+              selectedBrands.push({
+                id: brandId,
+                name: brandName
+              });
+            }
+          } else {
+            // Remove from selected brands
+            selectedBrands = selectedBrands.filter(brand => brand.id !== brandId);
+          }
+          
+          updateSelectedBrandsList();
+        });
+      });
+      
+      // Update selected brands list
+      function updateSelectedBrandsList() {
+        if (selectedBrands.length === 0) {
+          noBrandsSelected.classList.remove('hidden');
+          clearAllBtn.disabled = true;
+          continueBtn.disabled = true;
+        } else {
+          noBrandsSelected.classList.add('hidden');
+          clearAllBtn.disabled = false;
+          continueBtn.disabled = false;
+          
+          // Remove existing brand pills (except the "no brands selected" message)
+          const existingPills = selectedBrandsList.querySelectorAll('.selected-brand-pill');
+          existingPills.forEach(pill => pill.remove());
+          
+          // Add brand pills
+          selectedBrands.forEach(brand => {
+            const brandPill = document.createElement('div');
+            brandPill.className = 'selected-brand-pill';
+            brandPill.innerHTML = `
+              ${brand.name}
+              <button class="remove-brand" data-id="${brand.id}">
+                <i class="fas fa-times"></i>
+              </button>
+            `;
+            
+            selectedBrandsList.insertBefore(brandPill, noBrandsSelected);
+            
+            // Add event listener to remove button
+            const removeBtn = brandPill.querySelector('.remove-brand');
+            removeBtn.addEventListener('click', function() {
+              const brandId = parseInt(this.getAttribute('data-id'));
+              removeSelectedBrand(brandId);
+            });
+          });
+        }
+        
+        // Update count
+        selectedCount.textContent = selectedBrands.length;
+      }
+      
+      // Remove selected brand
+      function removeSelectedBrand(brandId) {
+        selectedBrands = selectedBrands.filter(brand => brand.id !== brandId);
+        
+        // Uncheck the corresponding checkbox
+        const checkbox = document.getElementById(`brand-${brandId}`);
+        if (checkbox) {
+          checkbox.checked = false;
+        }
+        
+        updateSelectedBrandsList();
+      }
+      
+      // Clear all selected brands
+      clearAllBtn.addEventListener('click', function() {
+        selectedBrands = [];
+        
+        // Uncheck all checkboxes
+        brandCheckboxes.forEach(checkbox => {
+          checkbox.checked = false;
+        });
+        
+        updateSelectedBrandsList();
+      });
+      
+      // Continue shopping button
+      continueBtn.addEventListener('click', function() {
+        // In a real application, this would redirect to a product page with the selected brands
+        alert(`You selected ${selectedBrands.length} brands: ${selectedBrands.map(b => b.name).join(', ')}`);
+      });
+      
+      // Search and filter functionality
+      const brandSearch = document.getElementById('brandSearch');
+      const categoryFilter = document.getElementById('categoryFilter');
+      const sortFilter = document.getElementById('sortFilter');
+      const brandCards = document.querySelectorAll('.brand-card');
+      const noResults = document.getElementById('noResults');
+      const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+      
+      function filterAndSortBrands() {
+        const searchTerm = brandSearch.value.toLowerCase().trim();
+        const category = categoryFilter.value;
+        let visibleCount = 0;
+        
+        brandCards.forEach(card => {
+          const brandName = card.querySelector('.brand-name').textContent.toLowerCase();
+          const brandDescription = card.querySelector('.brand-description').textContent.toLowerCase();
+          const brandCategory = card.getAttribute('data-category');
+          
+          // Apply filters
+          const matchesSearch = searchTerm === '' || 
+                               brandName.includes(searchTerm) || 
+                               brandDescription.includes(searchTerm);
+          
+          const matchesCategory = category === 'all' || brandCategory === category;
+          
+          // Show or hide based on filters
+          if (matchesSearch && matchesCategory) {
+            card.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+        
+        // Show "no results" message if needed
+        if (visibleCount === 0) {
+          noResults.style.display = 'block';
+        } else {
+          noResults.style.display = 'none';
+        }
+        
+        // Apply sorting
+        sortBrands();
+      }
+      
+      function sortBrands() {
+        const sortBy = sortFilter.value;
+        const brandGrid = document.getElementById('brandGrid');
+        const cards = Array.from(brandCards).filter(card => !card.classList.contains('hidden'));
+        
+        // Sort cards based on selected option
+        switch (sortBy) {
+          case 'alphabetical':
+            cards.sort((a, b) => {
+              const nameA = a.querySelector('.brand-name').textContent;
+              const nameB = b.querySelector('.brand-name').textContent;
+              return nameA.localeCompare(nameB);
+            });
+            break;
+          case 'alphabetical-desc':
+            cards.sort((a, b) => {
+              const nameA = a.querySelector('.brand-name').textContent;
+              const nameB = b.querySelector('.brand-name').textContent;
+              return nameB.localeCompare(nameA);
+            });
+            break;
+          case 'popularity':
+            cards.sort((a, b) => {
+              const featuredA = a.querySelector('.featured-badge') ? 1 : 0;
+              const featuredB = b.querySelector('.featured-badge') ? 1 : 0;
+              return featuredB - featuredA;
+            });
+            break;
+          case 'products':
+            cards.sort((a, b) => {
+              const productsA = parseInt(a.querySelector('.brand-products').textContent);
+              const productsB = parseInt(b.querySelector('.brand-products').textContent);
+              return productsB - productsA;
+            });
+            break;
+        }
+        
+        // Reorder cards in the DOM
+        cards.forEach(card => {
+          brandGrid.appendChild(card);
+        });
+      }
+      
+      // Add event listeners for search and filters
+      brandSearch.addEventListener('input', filterAndSortBrands);
+      categoryFilter.addEventListener('change', filterAndSortBrands);
+      sortFilter.addEventListener('change', filterAndSortBrands);
+      
+      // Reset filters button
+      resetFiltersBtn.addEventListener('click', function() {
+        brandSearch.value = '';
+        categoryFilter.value = 'all';
+        sortFilter.value = 'alphabetical';
+        filterAndSortBrands();
+      });
+      
+      // Pagination (for demonstration)
+      const pageItems = document.querySelectorAll('.page-item:not(.disabled)');
+      
+      pageItems.forEach(item => {
+        item.addEventListener('click', function() {
+          // Remove active class from all page items
+          pageItems.forEach(p => p.classList.remove('active'));
+          
+          // Add active class to clicked page item
+          this.classList.add('active');
+          
+          // In a real application, this would load different brands
+          // For demo purposes, we'll just scroll to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    });
+  </script>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'script.js' %}"></script>
+{% endblock %}

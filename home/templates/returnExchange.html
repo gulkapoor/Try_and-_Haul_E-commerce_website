@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="container return-container">
+    <h1 class="title">Return And Exchange</h1>
+    <p class="policy-text">At StyleAuras, we want you to be fully satisfied with your purchase. However, due to the nature of our business model, we currently <b>do not offer returns.</b> Instead, we provide an easy <b>exchange option</b> if you need a different size or color.</p>
+
+    <h3 class="return-section-title">🔹Eligibility for Exchanges</h3>
+    <ul class="list">
+        <li><span class="label">Timeframe:</span> Exchanges must be requested within <span class="highlight">10 days</span> of receiving the product.</li>
+        <li><span class="label">Condition:</span> The item must be:
+            <ul class="sub-list">
+                <li>Unworn, unwashed, and unused.</li>
+                <li>In its original packaging with tags attached.</li>
+                <li>Free of any stains, odors, or damage.</li>
+            </ul>
+        </li>
+        <li><span class="label">Non-exchangeable items:</span>
+            <ul class="sub-list">
+                <li>Final sale items.</li>
+                <li>Accessories (caps, socks, etc.) for hygiene reasons.</li>
+                <li>Custom or personalized products.</li>
+                <li>Items marked as "No Exchange" during sale events.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="section">
+        <h3 class="return-section-title">🔹Exchange Process</h3>
+        <ol class="ordered-list">
+            <li><span class="label">Request Exchange:</span>
+                <ul class="sub-list">
+                    <li>Go to <a href="https://StyleAura.shop" class="link" target="_blank">StyleAuras.Shop</a> → Account → Orders → Select "Exchange."</li>
+                    <li>Choose the new size or color (based on availability).</li>
+                </ul>
+            </li>
+            <li><span class="label">Pickup & Delivery:</span>
+                <ul class="sub-list">
+                    <li>The original item will be picked up and the new item will be shipped once the exchange is validated.</li>
+                </ul>
+            </li>
+            <li><span class="label">Processing Time:</span>
+                <ul class="sub-list">
+                    <li>The exchange process typically takes <span class="highlight">7-10 business days</span>.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="important-box">
+        <h3 class="return-section-title">⚠ Important Notes</h3>
+        <ul class="list">
+            <li><span class="label">Incorrect or Defective Items:</span> If you receive a damaged, defective, or incorrect product, contact us at 
+                <a href="mailto:market@StyleAura.shop" class="link">market@StyleAura.shop</a> or call <span class="highlight">9999999999</span> within <span class="highlight">48 hours</span> of delivery.</li>
+            <li><span class="label">Zero-inventory model:</span> Since we follow a zero-inventory model, exchanges are subject to the availability of products with partner brands.</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    .return-container {
+        margin-top: 150px;
+        max-width: 90%;
+        width: 50vw;
+        padding: 20px;
+        text-align: justify;
+    }
+
+    .return-section-title {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+    }
+
+    .policy-text {
+        margin-top: 0;
+        margin-bottom: 15px;
+        line-height: 1.6;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .list, .ordered-list {
+        margin-bottom: 20px;
+        padding-left: 20px;
+    }
+
+    .sub-list {
+        padding-left: 20px;
+        margin-top: 5px;
+    }
+
+    .link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .link:hover {
+        text-decoration: underline;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .highlight {
+        color: #d9534f;
+        font-weight: 500;
+    }
+
+    .important-box {
+        margin-top: 30px;
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .return-container {
+            width: 90%;
+            padding: 15px;
+            font-size: 0.95rem;
+            text-align: left;
+        }
+
+        .return-section-title {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

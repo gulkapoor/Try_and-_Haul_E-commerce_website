@@ -1,0 +1,738 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+  <main>
+  <section class="inventory-section">
+    <div class="container">
+      <div class="inventory-header">
+        <h1 class="inventory-title">Product Inventory</h1>
+        <div class="inventory-actions">
+          <button class="btn secondary-btn" id="exportBtn">
+            <i class="fas fa-file-export"></i> Export
+          </button>
+          <button class="btn primary-btn" id="addProductBtn">
+            <i class="fas fa-plus"></i> Add Product
+          </button>  id="addProductBtn">
+            <i class="fas fa-plus"></i> Add Product
+          </button>
+        </div>
+      </div>
+      
+      <div class="filter-bar">
+        <div class="search-box">
+          <input type="text" class="search-input" id="inventorySearch" placeholder="Search products...">
+          <button class="search-btn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        
+        <div class="filter-group">
+          <label for="categoryFilter" class="filter-label">Category</label>
+          <select id="categoryFilter" class="filter-select">
+            <option value="all">All Categories</option>
+            <option value="mens-clothing">Men's Clothing</option>
+            <option value="womens-clothing">Women's Clothing</option>
+            <option value="accessories">Accessories</option>
+            <option value="footwear">Footwear</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="stockFilter" class="filter-label">Stock Status</label>
+          <select id="stockFilter" class="filter-select">
+            <option value="all">All Status</option>
+            <option value="in-stock">In Stock</option>
+            <option value="low-stock">Low Stock</option>
+            <option value="out-of-stock">Out of Stock</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="inventory-table-container">
+        <table class="inventory-table">
+          <thead>
+            <tr>
+              <th>Product ID</th>
+              <th>Product Name</th>
+              <th>Category</th>
+              <th>Size</th>
+              <th>Color</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Last Updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Premium Cotton T-Shirt -->
+            <tr>
+              <td>P001-S</td>
+              <td>Premium Cotton T-Shirt</td>
+              <td>Men's Clothing</td>
+              <td>S</td>
+              <td>Black</td>
+              <td>25</td>
+              <td><span class="stock-status in-stock">In Stock</span></td>
+              <td>2023-06-15</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P001-S">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P001-S">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>P001-M</td>
+              <td>Premium Cotton T-Shirt</td>
+              <td>Men's Clothing</td>
+              <td>M</td>
+              <td>Black</td>
+              <td>18</td>
+              <td><span class="stock-status in-stock">In Stock</span></td>
+              <td>2023-06-15</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P001-M">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P001-M">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>P001-L</td>
+              <td>Premium Cotton T-Shirt</td>
+              <td>Men's Clothing</td>
+              <td>L</td>
+              <td>Black</td>
+              <td>7</td>
+              <td><span class="stock-status low-stock">Low Stock</span></td>
+              <td>2023-06-15</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P001-L">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P001-L">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>P001-XL</td>
+              <td>Premium Cotton T-Shirt</td>
+              <td>Men's Clothing</td>
+              <td>XL</td>
+              <td>Black</td>
+              <td>0</td>
+              <td><span class="stock-status out-of-stock">Out of Stock</span></td>
+              <td>2023-06-15</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P001-XL">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P001-XL">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Slim Fit Jeans -->
+            <tr>
+              <td>P002-30</td>
+              <td>Slim Fit Jeans</td>
+              <td>Men's Clothing</td>
+              <td>30</td>
+              <td>Blue</td>
+              <td>12</td>
+              <td><span class="stock-status in-stock">In Stock</span></td>
+              <td>2023-06-20</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P002-30">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P002-30">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>P002-32</td>
+              <td>Slim Fit Jeans</td>
+              <td>Men's Clothing</td>
+              <td>32</td>
+              <td>Blue</td>
+              <td>15</td>
+              <td><span class="stock-status in-stock">In Stock</span></td>
+              <td>2023-06-20</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P002-32">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P002-32">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>P002-34</td>
+              <td>Slim Fit Jeans</td>
+              <td>Men's Clothing</td>
+              <td>34</td>
+              <td>Blue</td>
+              <td>8</td>
+              <td><span class="stock-status low-stock">Low Stock</span></td>
+              <td>2023-06-20</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P002-34">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P002-34">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Summer Dress -->
+            <tr>
+              <td>P003-S</td>
+              <td>Summer Floral Dress</td>
+              <td>Women's Clothing</td>
+              <td>S</td>
+              <td>Floral</td>
+              <td>5</td>
+              <td><span class="stock-status low-stock">Low Stock</span></td>
+              <td>2023-07-05</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P003-S">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P003-S">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>P003-M</td>
+              <td>Summer Floral Dress</td>
+              <td>Women's Clothing</td>
+              <td>M</td>
+              <td>Floral</td>
+              <td>10</td>
+              <td><span class="stock-status in-stock">In Stock</span></td>
+              <td>2023-07-05</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P003-M">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P003-M">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>P003-L</td>
+              <td>Summer Floral Dress</td>
+              <td>Women's Clothing</td>
+              <td>L</td>
+              <td>Floral</td>
+              <td>0</td>
+              <td><span class="stock-status out-of-stock">Out of Stock</span></td>
+              <td>2023-07-05</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P003-L">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P003-L">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Leather Wallet -->
+            <tr>
+              <td>P004-OS</td>
+              <td>Leather Wallet</td>
+              <td>Accessories</td>
+              <td>One Size</td>
+              <td>Brown</td>
+              <td>20</td>
+              <td><span class="stock-status in-stock">In Stock</span></td>
+              <td>2023-07-10</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P004-OS">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P004-OS">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Classic Watch -->
+            <tr>
+              <td>P005-OS</td>
+              <td>Classic Watch</td>
+              <td>Accessories</td>
+              <td>One Size</td>
+              <td>Silver</td>
+              <td>3</td>
+              <td><span class="stock-status low-stock">Low Stock</span></td>
+              <td>2023-07-15</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn edit-btn" data-id="P005-OS">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete-btn" data-id="P005-OS">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="pagination">
+        <div class="page-item disabled">
+          <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="page-item active">1</div>
+        <div class="page-item">2</div>
+        <div class="page-item">3</div>
+        <div class="page-item">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Edit Product Modal -->
+  <div class="modal-overlay" id="editProductModal">
+    <div class="modal">
+      <button class="modal-close" id="editModalClose">
+        <i class="fas fa-times"></i>
+      </button>
+      <h2 class="modal-title">Edit Product</h2>
+      <form id="editProductForm" class="modal-form">
+        <input type="hidden" id="editProductId">
+        
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label for="editProductName" class="modal-form-label">Product Name</label>
+            <input type="text" id="editProductName" class="modal-form-input" required>
+          </div>
+          
+          <div class="modal-form-group">
+            <label for="editProductCategory" class="modal-form-label">Category</label>
+            <select id="editProductCategory" class="modal-form-input" required>
+              <option value="mens-clothing">Men's Clothing</option>
+              <option value="womens-clothing">Women's Clothing</option>
+              <option value="accessories">Accessories</option>
+              <option value="footwear">Footwear</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label for="editProductSize" class="modal-form-label">Size</label>
+            <input type="text" id="editProductSize" class="modal-form-input" required>
+          </div>
+          
+          <div class="modal-form-group">
+            <label for="editProductColor" class="modal-form-label">Color</label>
+            <input type="text" id="editProductColor" class="modal-form-input" required>
+          </div>
+        </div>
+        
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label for="editProductStock" class="modal-form-label">Stock Quantity</label>
+            <input type="number" id="editProductStock" class="modal-form-input" min="0" required>
+          </div>
+        </div>
+        
+        <div class="modal-form-actions">
+          <button type="button" class="btn secondary-btn" id="editModalCancel">Cancel</button>
+          <button type="submit" class="btn primary-btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Add Product Modal -->
+  <div class="modal-overlay" id="addProductModal">
+    <div class="modal">
+      <button class="modal-close" id="addModalClose">
+        <i class="fas fa-times"></i>
+      </button>
+      <h2 class="modal-title">Add New Product</h2>
+      <form id="addProductForm" class="modal-form">
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label for="addProductId" class="modal-form-label">Product ID</label>
+            <input type="text" id="addProductId" class="modal-form-input" required>
+          </div>
+          
+          <div class="modal-form-group">
+            <label for="addProductName" class="modal-form-label">Product Name</label>
+            <input type="text" id="addProductName" class="modal-form-input" required>
+          </div>
+        </div>
+        
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label for="addProductCategory" class="modal-form-label">Category</label>
+            <select id="addProductCategory" class="modal-form-input" required>
+              <option value="mens-clothing">Men's Clothing</option>
+              <option value="womens-clothing">Women's Clothing</option>
+              <option value="accessories">Accessories</option>
+              <option value="footwear">Footwear</option>
+            </select>
+          </div>
+          
+          <div class="modal-form-group">
+            <label for="addProductSize" class="modal-form-label">Size</label>
+            <input type="text" id="addProductSize" class="modal-form-input" required>
+          </div>
+        </div>
+        
+        <div class="modal-form-row">
+          <div class="modal-form-group">
+            <label for="addProductColor" class="modal-form-label">Color</label>
+            <input type="text" id="addProductColor" class="modal-form-input" required>
+          </div>
+          
+          <div class="modal-form-group">
+            <label for="addProductStock" class="modal-form-label">Stock Quantity</label>
+            <input type="number" id="addProductStock" class="modal-form-input" min="0" required>
+          </div>
+        </div>
+        
+        <div class="modal-form-actions">
+          <button type="button" class="btn secondary-btn" id="addModalCancel">Cancel</button>
+          <button type="submit" class="btn primary-btn">Add Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'script.js' %}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Hide secondary navbar on scroll
+        const secondaryNavbar = document.getElementById('secondaryNavbar');
+        let lastScrollTop = 0;
+        
+        window.addEventListener('scroll', function() {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          
+          if (scrollTop > 50) {
+            secondaryNavbar.classList.add('hidden');
+          } else {
+            secondaryNavbar.classList.remove('hidden');
+          }
+          
+          lastScrollTop = scrollTop;
+        });
+        
+        // Inventory Search
+        const inventorySearch = document.getElementById('inventorySearch');
+        const inventoryTable = document.querySelector('.inventory-table tbody');
+        const inventoryRows = inventoryTable ? inventoryTable.querySelectorAll('tr') : [];
+        
+        if (inventorySearch) {
+          inventorySearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            inventoryRows.forEach(row => {
+              const productId = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+              const productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+              const category = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+              
+              if (productId.includes(searchTerm) || productName.includes(searchTerm) || category.includes(searchTerm)) {
+                row.style.display = '';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+          });
+        }
+        
+        // Category Filter
+        const categoryFilter = document.getElementById('categoryFilter');
+        
+        if (categoryFilter) {
+          categoryFilter.addEventListener('change', function() {
+            const category = this.value.toLowerCase();
+            
+            inventoryRows.forEach(row => {
+              const rowCategory = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+              
+              if (category === 'all' || rowCategory.includes(category.replace('-', ' '))) {
+                row.style.display = '';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+          });
+        }
+        
+        // Stock Status Filter
+        const stockFilter = document.getElementById('stockFilter');
+        
+        if (stockFilter) {
+          stockFilter.addEventListener('change', function() {
+            const status = this.value.toLowerCase();
+            
+            inventoryRows.forEach(row => {
+              const statusElement = row.querySelector('.stock-status');
+              const rowStatus = statusElement ? statusElement.classList[1] : '';
+              
+              if (status === 'all' || rowStatus === status) {
+                row.style.display = '';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+          });
+        }
+        
+        // Edit Product Modal
+        const editProductModal = document.getElementById('editProductModal');
+        const editProductForm = document.getElementById('editProductForm');
+        const editProductId = document.getElementById('editProductId');
+        const editProductName = document.getElementById('editProductName');
+        const editProductCategory = document.getElementById('editProductCategory');
+        const editProductSize = document.getElementById('editProductSize');
+        const editProductColor = document.getElementById('editProductColor');
+        const editProductStock = document.getElementById('editProductStock');
+        const editModalClose = document.getElementById('editModalClose');
+        const editModalCancel = document.getElementById('editModalCancel');
+        const editButtons = document.querySelectorAll('.edit-btn');
+        
+        // Open Edit Modal
+        editButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            const row = this.closest('tr');
+            
+            // Populate form with product data
+            editProductId.value = productId;
+            editProductName.value = row.querySelector('td:nth-child(2)').textContent;
+            editProductCategory.value = row.querySelector('td:nth-child(3)').textContent.toLowerCase().replace("'s", '').replace(' ', '-');
+            editProductSize.value = row.querySelector('td:nth-child(4)').textContent;
+            editProductColor.value = row.querySelector('td:nth-child(5)').textContent;
+            editProductStock.value = row.querySelector('td:nth-child(6)').textContent;
+            
+            // Show modal
+            editProductModal.classList.add('active');
+          });
+        });
+        
+        // Close Edit Modal
+        if (editModalClose) {
+          editModalClose.addEventListener('click', function() {
+            editProductModal.classList.remove('active');
+          });
+        }
+        
+        if (editModalCancel) {
+          editModalCancel.addEventListener('click', function() {
+            editProductModal.classList.remove('active');
+          });
+        }
+        
+        // Submit Edit Form
+        if (editProductForm) {
+          editProductForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send this data to your backend
+            console.log('Edit product:', {
+              id: editProductId.value,
+              name: editProductName.value,
+              category: editProductCategory.value,
+              size: editProductSize.value,
+              color: editProductColor.value,
+              stock: editProductStock.value
+            });
+            
+            // For demo purposes, update the row in the table
+            const row = document.querySelector(`.edit-btn[data-id="${editProductId.value}"]`).closest('tr');
+            row.querySelector('td:nth-child(2)').textContent = editProductName.value;
+            row.querySelector('td:nth-child(3)').textContent = editProductCategory.value.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) + "'s";
+            row.querySelector('td:nth-child(4)').textContent = editProductSize.value;
+            row.querySelector('td:nth-child(5)').textContent = editProductColor.value;
+            row.querySelector('td:nth-child(6)').textContent = editProductStock.value;
+            
+            // Update stock status
+            const stockStatus = row.querySelector('.stock-status');
+            stockStatus.classList.remove('in-stock', 'low-stock', 'out-of-stock');
+            
+            if (parseInt(editProductStock.value) === 0) {
+              stockStatus.classList.add('out-of-stock');
+              stockStatus.textContent = 'Out of Stock';
+            } else if (parseInt(editProductStock.value) <= 10) {
+              stockStatus.classList.add('low-stock');
+              stockStatus.textContent = 'Low Stock';
+            } else {
+              stockStatus.classList.add('in-stock');
+              stockStatus.textContent = 'In Stock';
+            }
+            
+            // Close modal
+            editProductModal.classList.remove('active');
+            
+            // Show success message
+            alert('Product updated successfully!');
+          });
+        }
+        
+        // Add Product Modal
+        const addProductModal = document.getElementById('addProductModal');
+        const addProductForm = document.getElementById('addProductForm');
+        const addProductBtn = document.getElementById('addProductBtn');
+        const addModalClose = document.getElementById('addModalClose');
+        const addModalCancel = document.getElementById('addModalCancel');
+        
+        // Open Add Modal
+        if (addProductBtn) {
+          addProductBtn.addEventListener('click', function() {
+            addProductModal.classList.add('active');
+          });
+        }
+        
+        // Close Add Modal
+        if (addModalClose) {
+          addModalClose.addEventListener('click', function() {
+            addProductModal.classList.remove('active');
+          });
+        }
+        
+        if (addModalCancel) {
+          addModalCancel.addEventListener('click', function() {
+            addProductModal.classList.remove('active');
+          });
+        }
+        
+        // Submit Add Form
+        if (addProductForm) {
+          addProductForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const productId = document.getElementById('addProductId').value;
+            const productName = document.getElementById('addProductName').value;
+            const category = document.getElementById('addProductCategory').value;
+            const size = document.getElementById('addProductSize').value;
+            const color = document.getElementById('addProductColor').value;
+            const stock = document.getElementById('addProductStock').value;
+            
+            // Here you would typically send this data to your backend
+            console.log('Add product:', { productId, productName, category, size, color, stock });
+            
+            // For demo purposes, show success message
+            alert('Product added successfully!');
+            
+            // Close modal
+            addProductModal.classList.remove('active');
+            
+            // Reset form
+            addProductForm.reset();
+          });
+        }
+        
+        // Delete Product
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        
+        deleteButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            
+            if (confirm(`Are you sure you want to delete product ${productId}?`)) {
+              // Here you would typically send this to your backend
+              console.log('Delete product:', productId);
+              
+              // For demo purposes, remove the row from the table
+              this.closest('tr').remove();
+              
+              // Show success message
+              alert('Product deleted successfully!');
+            }
+          });
+        });
+        
+        // Export Button
+        const exportBtn = document.getElementById('exportBtn');
+        
+        if (exportBtn) {
+          exportBtn.addEventListener('click', function() {
+            alert('Inventory data would be exported here');
+          });
+        }
+        
+        // Pagination (for demonstration)
+        const pageItems = document.querySelectorAll('.page-item:not(.disabled)');
+        
+        pageItems.forEach(item => {
+          item.addEventListener('click', function() {
+            // Remove active class from all page items
+            pageItems.forEach(p => p.classList.remove('active'));
+            
+            // Add active class to clicked page item
+            this.classList.add('active');
+            
+            // In a real application, this would load different data
+            // For demo purposes, we'll just scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        
+        if (mobileMenuBtn) {
+          mobileMenuBtn.addEventListener('click', function() {
+            // In a real implementation, this would toggle a mobile menu
+            alert('Mobile menu would open here');
+          });
+        }
+      });
+    </script>
+{% endblock %} 

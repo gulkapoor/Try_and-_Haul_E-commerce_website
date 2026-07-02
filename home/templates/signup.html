@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+  
+<main>
+<section class="signup-section">
+    <div class="container">
+    <div class="signup-container">
+        <div class="signup-header">
+        <h1 class="signup-title">Create an Account</h1>
+        <p class="signup-subtitle">Join us to enjoy exclusive benefits and offers</p>
+        </div>
+        
+        <form id="signupForm" action="{% url 'signup' %}" method="post">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group">
+                <label for="firstName" class="form-label">First Name</label>
+                <input name="firstName" type="text" id="firstName" class="form-input" placeholder="Enter your first name" required>
+                </div>
+                
+                <div class="form-group">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input name="lastName" type="text" id="lastName" class="form-input" placeholder="Enter your last name">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input name="email" type="email" id="email" class="form-input" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="form-label">Phone No.</label>
+                <input  name="phone" type="tel" id="phone" class="form-input" placeholder="Enter your Phone No." required>
+                <p id="phoneError" class="error-message" ></p>
+            </div>            
+            
+            <div class="form-row">
+                <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-input" placeholder="Create a password" required>
+                </div>
+                
+                <div class="form-group">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" name="confirmation" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                </div>
+            </div>
+            <p class="password-requirements" style="margin-bottom: 20px;">Password must be at least 8 characters long and include a number and a special character.</p>
+
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="termsAgreement" required>
+                <label for="termsAgreement">
+                I agree to the <a href="{% url 'termsAndConditions' %}">Terms of Service</a> and <a href="{% url 'FAQ' %}">Privacy Policy</a>. I consent to receive marketing emails.
+                </label>
+            </div>
+
+            {% if message %}
+                <div class="errorMessage">{{ message }}</div> 
+            {% endif %}
+            
+            <button type="submit" class="btn primary-btn signup-btn" value="Register">Create Account</button>
+        </form>
+        
+        <div class="login-link">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
+    </div>
+</section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {    
+    // Signup Form Validation
+    const signupForm = document.getElementById('signupForm');
+    
+    if (signupForm) {
+    signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const termsAgreement = document.getElementById('termsAgreement').checked;
+        
+         // Phone number validation (only digits and exactly 10 digits long)
+         signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value.trim();
+            const phonePattern = /^\d{10}$/;
+            const phoneError = document.getElementById("phoneError");
+
+            if (!phonePattern.test(phone)) {
+                phoneError.textContent = "Please enter a valid 10-digit mobile number.";
+                return;  // Stop submission if invalid
+            } else {
+                phoneError.textContent = ""; // Clear error if valid
+            }
+
+            this.submit(); // Proceed with form submission
+        });
+
+
+        if (password.length < 8) {
+        alert('Password must be at least 8 characters long!');
+        return;
+        }
+        
+        if (!termsAgreement) {
+        alert('You must agree to the Terms of Service and Privacy Policy!');
+        return;
+        }
+        
+    });
+    }
+});
+</script>
+
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}{{ productType.name }}{% endblock %}
+
+{% block body %}
+<main>
+  <section class="product-listing">
+    <div class="container">
+      <h2>{{ category }} > {{ productType.name }}</h2>
+
+      {% if listings %}
+        <div class="product-grid">
+          {% for list in listings %}
+            <a href="{% url 'item' list.category.slug list.productType.slug list.slug %}" class="product-card">
+              <div class="product-image-container">
+                {% if list.images.first %}
+                  <img src="{{ list.images.first.image.url }}" alt="{{ list.name }}">
+                {% else %}
+                  <img src="{% static 'placeholder.png' %}" alt="No Image">
+                {% endif %}
+              </div>
+              <div class="product-info">
+                <div class="product-brand">{{ list.brand.name }}</div>
+                <h3>{{ list.name }}</h3>
+                {% if list.discountedPrice %}
+                  <div>₹ {{ list.discountedPrice }} <s>₹ {{ list.price }}</s></div>
+                {% else %}
+                  <div>₹ {{ list.price }}</div>
+                {% endif %}
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No products available in this product type yet.</p>
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% endblock %}

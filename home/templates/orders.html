@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+<main>
+  <div class="container orders-container">
+    <h1 class="section-title">My Orders</h1>
+    
+    
+    {% if orders %}
+      {% for order in orders %}
+        <!-- When there are orders -->
+        <div class="orders-list">
+          <div class="order-card">
+            <div class="order-header">
+              <span class="order-id">Order ID: {{ order.order_id }}</span>
+              <span class="order-date">Placed on: {{ order.created_at }}</span>
+              {% if order.status == "SUCCESS" %}
+                <span class="order-status status-delivered">{{ order.status }}</span>
+              {% elif order.status == "PENDING" %}
+                <span class="order-status status-processing">{{ order.status }}</span>
+              {% elif order.status == "FAILED" %}
+                <span class="order-status status-failed">{{ order.status }}</span>
+              {% endif %}
+            </div>
+
+            <!-- For each item in the order -->
+            {% for item in order.items %}
+              <div class="order-items">
+                <div class="order-item">
+                  {% if item.image %}
+                    <img src="{{ item.image }}" alt="Product" class="order-item-image">
+                  {% else %}
+                    <div class="no-image">No image available</div>
+                  {% endif %}
+                  <div class="order-item-details">
+                    <div class="order-item-name">{{ item.productName }}</div>
+                    <div class="order-item-size">Size: {{ item.size }} | Qty: {{ item.quantity }}</div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="order-footer">
+              <div class="order-total">Delivering to: <span style="font-weight: 600; font-size: medium;">{{ order.orderAddress.fullName }}</span> , <span style="font-weight: 500; font-size: small;">{{ order.orderAddress.city }}</span></div>
+              
+              {% if order.discount > 0 %}
+                <div class="savings-highlight">
+                  <div class="savings-icon" style="font-size: 15px; margin-top: 0px;">
+                    <i class="fas fa-piggy-bank"></i>
+                  </div>
+                  <div class="savings-text" >
+                    You saved ₹{{ order.discount }} on this order!
+                  </div>
+                </div>
+              {% endif %}
+              <div class="order-actions">
+                Total: {{ order.amount }}
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+    {% else %}
+      <!-- When there are no orders -->
+      <div class="empty-orders">
+        <i class="fas fa-shopping-bag"></i>
+        <h2>No Orders Placed Yet</h2>
+        <p>Looks like you haven't placed any orders yet. Browse our collections and find something you love!</p>
+        <a href="{% url 'allProducts' %}" class="btn primary-btn">Start Shopping</a>
+      </div>
+    {% endif %}
+  </div>
+</main>
+
+  
+{% endblock %}
+
+
+{% block script %}
+  <script src="{% static 'static/script.js' %}"></script>
+{% endblock %}
+

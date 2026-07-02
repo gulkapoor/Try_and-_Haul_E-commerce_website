@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+
+  <main>
+    <div class="container wishlist-container">
+      <h1 class="section-title">My Wishlist</h1>
+      
+      <!-- Toggle between these two sections based on whether there are wishlist items -->
+
+      
+      {% if listings %}
+        <!-- When there are wishlist items -->
+        <div class="wishlist-grid">
+
+          {% for list in listings %}
+            
+            <div class="wishlist-item">
+              <!-- Remove Item From Wishlist -->
+              <form method="post" action="{% url 'item' list.wishlistItem.category.slug list.wishlistItem.productType.slug list.wishlistItem.slug %}">
+                {% csrf_token %}  
+                <button type="submit" name="removeWishlistThroughWishlist" class="remove-btn" aria-label="Remove from wishlist">
+                  <i class="fas fa-times"></i>
+                </button>
+              </form>
+              
+
+              <div class="wishlist-image">
+                <img src="{{ list.wishlistItem.images.first.image.url }}" alt="Product">
+              </div>
+              <div class="wishlist-info">
+                <h3 class="wishlist-name">{{ list.wishlistItem.name }}</h3>
+                <p class="wishlist-brand">{{ list.wishlistItem.brand }}</p>
+                <div class="wishlist-price">
+                  {% if list.wishlistItem.discountedPrice %}
+                    <div class="price-container">
+                        <div class="current-price">₹ {{ list.wishlistItem.discountedPrice }}</div> 
+                        <div class="original-price"><s>₹ {{ list.wishlistItem.price }}</s></div>
+                    </div>
+                  {% else %}
+                    <div class="current-price">₹ {{ list.wishlistItem.price }}</div>
+                  {% endif %}  
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" style="color: green;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <!-- Add Item to Bag -->
+                <div class="wishlist-actions">
+                    <a href="{% url 'item' list.wishlistItem.category.slug list.wishlistItem.productType.slug list.wishlistItem.slug %}" class="btn secondary-btn" style="width: 100%;">View Details</a>
+                </div>
+              </div>
+            </div>
+
+          {% endfor %}
+          
+        
+      {% else %}
+      
+        <!-- When there are no wishlist items -->
+        <div class="empty-wishlist">
+          <i class="fas fa-heart"></i>
+          <h2>Your Wishlist is Empty</h2>
+          <p>Save your favorite items to your wishlist and they'll appear here.</p>
+          <a href="{% url 'allProducts' %}" class="btn primary-btn">Start Shopping</a>
+        </div>
+
+      {% endif %}
+
+    </div>
+  </main>
+
+  {% endblock %}
+
+
+{% block script %}
+  <script src="{% static 'static/script.js' %}"></script>
+
+  <script>
+    // Toggle between wishlist and empty state for demo purposes
+    // In a real application, this would be determined by backend data
+    const toggleWishlistBtn = document.createElement('button');
+    toggleWishlistBtn.textContent = 'Toggle Wishlist View';
+    toggleWishlistBtn.classList.add('btn', 'secondary-btn');
+    toggleWishlistBtn.style.marginBottom = '20px';
+    
+    const wishlistContainer = document.querySelector('.wishlist-container');
+    wishlistContainer.insertBefore(toggleWishlistBtn, wishlistContainer.firstChild.nextSibling);
+    
+    const wishlistGrid = document.querySelector('.wishlist-grid');
+    const emptyWishlist = document.querySelector('.empty-wishlist');
+    
+    toggleWishlistBtn.addEventListener('click', function() {
+      if (wishlistGrid.style.display === 'none') {
+        wishlistGrid.style.display = 'grid';
+        emptyWishlist.style.display = 'none';
+      } else {
+        wishlistGrid.style.display = 'none';
+        emptyWishlist.style.display = 'block';
+      }
+    });
+  </script>
+{% endblock %}

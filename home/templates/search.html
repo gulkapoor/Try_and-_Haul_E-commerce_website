@@ -1,0 +1,590 @@
+
+
+
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+<main>
+    <section class="search-results-section">
+      <div class="container">
+        <div class="search-header">
+          <h1 class="search-title">Search Results for "<span class="search-query">cotton t-shirt</span>"</h1>
+          <p class="results-count">Showing 24 results</p>
+        </div>
+        
+        <!-- Results Tabs -->
+        <div class="results-tabs">
+          <button class="results-tab active" data-target="products-results">Products</button>
+          <button class="results-tab" data-target="brands-results">Brands</button>
+        </div>
+        
+        <!-- Mobile Filter Toggle -->
+        <div class="mobile-filter-toggle">
+          <button id="filter-toggle" class="btn secondary-btn">Show Filters</button>
+        </div>
+        
+        <div class="search-results-container">
+          <!-- Filters Sidebar -->
+          <div id="filters-container" class="filters-container">
+            <div class="filters-header">
+              <h2>Filters</h2>
+              <button id="clear-filters" class="clear-filters">Clear All</button>
+            </div>
+            
+            <!-- Price Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">Price Range</h3>
+              <div class="price-filter">
+                <input type="range" id="price-range" min="0" max="10000" value="10000" class="price-slider">
+                <div class="price-range-labels">
+                  <span>₹0</span>
+                  <span id="price-value">₹10000</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Category Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">Category</h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="men">
+                  <span>Men's Clothing</span>
+                  <span class="filter-count">(120)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="women">
+                  <span>Women's Clothing</span>
+                  <span class="filter-count">(98)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="accessories">
+                  <span>Accessories</span>
+                  <span class="filter-count">(45)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="footwear">
+                  <span>Footwear</span>
+                  <span class="filter-count">(32)</span>
+                </label>
+              </div>
+            </div>
+            
+            <!-- Brand Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">Brand</h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="nike">
+                  <span>Nike</span>
+                  <span class="filter-count">(28)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="adidas">
+                  <span>Adidas</span>
+                  <span class="filter-count">(24)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="puma">
+                  <span>Puma</span>
+                  <span class="filter-count">(19)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="levis">
+                  <span>Levi's</span>
+                  <span class="filter-count">(15)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="zara">
+                  <span>Zara</span>
+                  <span class="filter-count">(12)</span>
+                </label>
+              </div>
+              <button class="view-more">+ View More</button>
+            </div>
+            
+            <!-- Size Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">Size</h3>
+              <div class="size-options">
+                <label class="size-option">
+                  <input type="checkbox" class="filter-checkbox" value="s">
+                  <span>S</span>
+                </label>
+                <label class="size-option">
+                  <input type="checkbox" class="filter-checkbox" value="m">
+                  <span>M</span>
+                </label>
+                <label class="size-option">
+                  <input type="checkbox" class="filter-checkbox" value="l">
+                  <span>L</span>
+                </label>
+                <label class="size-option">
+                  <input type="checkbox" class="filter-checkbox" value="xl">
+                  <span>XL</span>
+                </label>
+                <label class="size-option">
+                  <input type="checkbox" class="filter-checkbox" value="xxl">
+                  <span>XXL</span>
+                </label>
+              </div>
+            </div>
+            
+            <!-- Color Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">Color</h3>
+              <div class="color-options">
+                <label class="color-option">
+                  <input type="checkbox" class="filter-checkbox" value="black">
+                  <span class="color-swatch" style="background-color: #000;"></span>
+                  <span class="color-name">Black</span>
+                </label>
+                <label class="color-option">
+                  <input type="checkbox" class="filter-checkbox" value="white">
+                  <span class="color-swatch" style="background-color: #fff; border: 1px solid #ddd;"></span>
+                  <span class="color-name">White</span>
+                </label>
+                <label class="color-option">
+                  <input type="checkbox" class="filter-checkbox" value="blue">
+                  <span class="color-swatch" style="background-color: #3498db;"></span>
+                  <span class="color-name">Blue</span>
+                </label>
+                <label class="color-option">
+                  <input type="checkbox" class="filter-checkbox" value="red">
+                  <span class="color-swatch" style="background-color: #e74c3c;"></span>
+                  <span class="color-name">Red</span>
+                </label>
+                <label class="color-option">
+                  <input type="checkbox" class="filter-checkbox" value="green">
+                  <span class="color-swatch" style="background-color: #2ecc71;"></span>
+                  <span class="color-name">Green</span>
+                </label>
+              </div>
+            </div>
+            
+            <!-- Discount Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">Discount</h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="10">
+                  <span>10% and above</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="20">
+                  <span>20% and above</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="30">
+                  <span>30% and above</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="40">
+                  <span>40% and above</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" class="filter-checkbox" value="50">
+                  <span>50% and above</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Results Content -->
+          <div class="results-content-container">
+            <!-- Products Results -->
+            <div id="products-results" class="results-content">
+              <div class="results-header">
+                <div class="results-count-desktop">24 Products Found</div>
+                <div class="sort-container">
+                  <div id="sort-dropdown" class="sort-dropdown">
+                    <span>Sort By: </span>
+                    <span id="sort-value" class="sort-value">Relevance</span>
+                    <i class="fas fa-chevron-down"></i>
+                    
+                    <div id="sort-options" class="sort-options hidden">
+                      <div class="sort-option active" data-sort="relevance">Relevance</div>
+                      <div class="sort-option" data-sort="price-low-high">Price: Low to High</div>
+                      <div class="sort-option" data-sort="price-high-low">Price: High to Low</div>
+                      <div class="sort-option" data-sort="newest">Newest First</div>
+                      <div class="sort-option" data-sort="discount">Discount</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Products Grid -->
+              <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                  <div class="product-image-container">
+                    <img src="{% static 'images/products/tshirt1.jpg' %}" alt="Premium Cotton T-Shirt" class="product-image">
+                    <div class="product-actions">
+                      <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                      <button class="quick-view-btn">Quick View</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Premium Cotton T-Shirt</h3>
+                    <p class="product-brand">Nike</p>
+                    <div class="product-pricing">
+                      <span class="product-price">₹799</span>
+                      <span class="product-original-price">₹999</span>
+                      <span class="product-discount">20% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                  <div class="product-image-container">
+                    <img src="{% static 'images/products/tshirt2.jpg' %}" alt="Slim Fit Graphic Tee" class="product-image">
+                    <div class="product-actions">
+                      <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                      <button class="quick-view-btn">Quick View</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Slim Fit Graphic Tee</h3>
+                    <p class="product-brand">Adidas</p>
+                    <div class="product-pricing">
+                      <span class="product-price">₹699</span>
+                      <span class="product-original-price">₹999</span>
+                      <span class="product-discount">30% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                  <div class="product-image-container">
+                    <img src="{% static 'images/products/tshirt3.jpg' %}" alt="Organic Cotton Henley" class="product-image">
+                    <div class="product-actions">
+                      <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                      <button class="quick-view-btn">Quick View</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Organic Cotton Henley</h3>
+                    <p class="product-brand">Puma</p>
+                    <div class="product-pricing">
+                      <span class="product-price">₹899</span>
+                      <span class="product-original-price">₹1299</span>
+                      <span class="product-discount">30% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                  <div class="product-image-container">
+                    <img src="{% static 'images/products/tshirt4.jpg' %}" alt="Vintage Logo T-Shirt" class="product-image">
+                    <div class="product-actions">
+                      <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                      <button class="quick-view-btn">Quick View</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Vintage Logo T-Shirt</h3>
+                    <p class="product-brand">Levi's</p>
+                    <div class="product-pricing">
+                      <span class="product-price">₹749</span>
+                      <span class="product-original-price">₹999</span>
+                      <span class="product-discount">25% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="product-card">
+                  <div class="product-image-container">
+                    <img src="{% static 'images/products/tshirt5.jpg' %}" alt="Long Sleeve Cotton Tee" class="product-image">
+                    <div class="product-actions">
+                      <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                      <button class="quick-view-btn">Quick View</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Long Sleeve Cotton Tee</h3>
+                    <p class="product-brand">Zara</p>
+                    <div class="product-pricing">
+                      <span class="product-price">₹999</span>
+                      <span class="product-original-price">₹1499</span>
+                      <span class="product-discount">33% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card">
+                  <div class="product-image-container">
+                    <img src="{% static 'images/products/tshirt6.jpg' %}" alt="Striped Cotton T-Shirt" class="product-image">
+                    <div class="product-actions">
+                      <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                      <button class="quick-view-btn">Quick View</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Striped Cotton T-Shirt</h3>
+                    <p class="product-brand">H&M</p>
+                    <div class="product-pricing">
+                      <span class="product-price">₹599</span>
+                      <span class="product-original-price">₹799</span>
+                      <span class="product-discount">25% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Product 7 -->
+                <div class="product-card">
+                  <div class="product-image-container">
+                    <img src="{% static 'images/products/tshirt7.jpg' %}" alt="V-Neck Cotton T-Shirt" class="product-image">
+                    <div class="product-actions">
+                      <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                      <button class="quick-view-btn">Quick View</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">V-Neck Cotton T-Shirt</h3>
+                    <p class="product-brand">Calvin Klein</p>
+                    <div class="product-pricing">
+                      <span class="product-price">₹1299</span>
+                      <span class="product-original-price">₹1999</span>
+                      <span class="product-discount">35% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Product 8 -->
+                <div class="product-card">
+                  <div class="product-image-container">
+                    <img src="{% static 'images/products/tshirt8.jpg' %}" alt="Athletic Fit Cotton Tee" class="product-image">
+                    <div class="product-actions">
+                      <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                      <button class="quick-view-btn">Quick View</button>
+                    </div>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Athletic Fit Cotton Tee</h3>
+                    <p class="product-brand">Under Armour</p>
+                    <div class="product-pricing">
+                      <span class="product-price">₹899</span>
+                      <span class="product-original-price">₹1299</span>
+                      <span class="product-discount">30% OFF</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- More products would be here in a real application -->
+              </div>
+              
+              <!-- Pagination -->
+              <div class="pagination">
+                <button class="pagination-btn disabled"><i class="fas fa-chevron-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <span class="pagination-ellipsis">...</span>
+                <button class="pagination-btn">8</button>
+                <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
+            
+            <!-- Brands Results -->
+            <div id="brands-results" class="results-content hidden">
+              <div class="results-header">
+                <div class="results-count-desktop">5 Brands Found</div>
+              </div>
+              
+              <!-- Brands Grid -->
+              <div class="brands-grid">
+                <!-- Brand 1 -->
+                <div class="brand-card">
+                  <div class="brand-logo">
+                    <img src="{% static 'images/brands/nike.png' %}" alt="Nike Logo">
+                  </div>
+                  <div class="brand-info">
+                    <h3 class="brand-name">Nike</h3>
+                    <p class="brand-category">Sportswear</p>
+                    <p class="brand-description">Global sports and fitness brand known for innovative athletic footwear, apparel, and accessories.</p>
+                    <div class="brand-footer">
+                      <span class="brand-products-count">245 Products</span>
+                      <a href="#" class="btn secondary-btn">View Products</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Brand 2 -->
+                <div class="brand-card">
+                  <div class="brand-logo">
+                    <img src="{% static 'images/brands/adidas.png' %}" alt="Adidas Logo">
+                  </div>
+                  <div class="brand-info">
+                    <h3 class="brand-name">Adidas</h3>
+                    <p class="brand-category">Sportswear</p>
+                    <p class="brand-description">Leading sportswear manufacturer offering performance and lifestyle products for various sports and activities.</p>
+                    <div class="brand-footer">
+                      <span class="brand-products-count">198 Products</span>
+                      <a href="#" class="btn secondary-btn">View Products</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Brand 3 -->
+                <div class="brand-card">
+                  <div class="brand-logo">
+                    <img src="{% static 'images/brands/puma.png' %}" alt="Puma Logo">
+                  </div>
+                  <div class="brand-info">
+                    <h3 class="brand-name">Puma</h3>
+                    <p class="brand-category">Sportswear</p>
+                    <p class="brand-description">German multinational corporation designing and manufacturing athletic and casual footwear, apparel, and accessories.</p>
+                    <div class="brand-footer">
+                      <span class="brand-products-count">175 Products</span>
+                      <a href="#" class="btn secondary-btn">View Products</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Brand 4 -->
+                <div class="brand-card">
+                  <div class="brand-logo">
+                    <img src="{% static 'images/brands/levis.png' %}" alt="Levi's Logo">
+                  </div>
+                  <div class="brand-info">
+                    <h3 class="brand-name">Levi's</h3>
+                    <p class="brand-category">Clothing</p>
+                    <p class="brand-description">American clothing company known worldwide for its denim jeans and other clothing items.</p>
+                    <div class="brand-footer">
+                      <span class="brand-products-count">130 Products</span>
+                      <a href="#" class="btn secondary-btn">View Products</a>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Brand 5 -->
+                <div class="brand-card">
+                  <div class="brand-logo">
+                    <img src="{% static 'images/brands/zara.png' %}" alt="Zara Logo">
+                  </div>
+                  <div class="brand-info">
+                    <h3 class="brand-name">Zara</h3>
+                    <p class="brand-category">Clothing</p>
+                    <p class="brand-description">Fast-fashion retailer offering trendy clothing, accessories, and footwear for men, women, and children.</p>
+                    <div class="brand-footer">
+                      <span class="brand-products-count">320 Products</span>
+                      <a href="#" class="btn secondary-btn">View Products</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+
+{% endblock %}
+
+
+{% block script %}
+    {% load static %}
+    <script src="{% static 'listing.js' %}"></script>
+    <script src="{% static 'sort.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab switching functionality
+      const resultsTabs = document.querySelectorAll('.results-tab');
+      const resultsContents = document.querySelectorAll('.results-content');
+      
+      resultsTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          resultsTabs.forEach(t => t.classList.remove('active'));
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Hide all content sections
+          resultsContents.forEach(content => content.classList.add('hidden'));
+          // Show the corresponding content section
+          const targetContent = document.getElementById(this.getAttribute('data-target'));
+          if (targetContent) {
+            targetContent.classList.remove('hidden');
+          }
+        });
+      });
+      
+      // Filter toggle for mobile
+      const filterToggleBtn = document.getElementById('filter-toggle');
+      const filtersContainer = document.getElementById('filters-container');
+      
+      if (filterToggleBtn && filtersContainer) {
+        filterToggleBtn.addEventListener('click', function() {
+          filtersContainer.classList.toggle('filters-active');
+          this.textContent = filtersContainer.classList.contains('filters-active') ? 'Hide Filters' : 'Show Filters';
+        });
+      }
+      
+      // Price range slider
+      const priceRange = document.getElementById('price-range');
+      const priceValue = document.getElementById('price-value');
+      
+      if (priceRange && priceValue) {
+        priceRange.addEventListener('input', function() {
+          priceValue.textContent = '₹' + this.value;
+        });
+      }
+      
+      // Sort dropdown
+      const sortDropdown = document.getElementById('sort-dropdown');
+      const sortOptions = document.getElementById('sort-options');
+      const sortValue = document.getElementById('sort-value');
+      const sortOptionItems = document.querySelectorAll('.sort-option');
+      
+      if (sortDropdown && sortOptions) {
+        sortDropdown.addEventListener('click', function() {
+          sortOptions.classList.toggle('hidden');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+          if (!sortDropdown.contains(event.target)) {
+            sortOptions.classList.add('hidden');
+          }
+        });
+        
+        // Select sort option
+        sortOptionItems.forEach(option => {
+          option.addEventListener('click', function() {
+            sortValue.textContent = this.textContent;
+            sortOptions.classList.add('hidden');
+            
+            // In a real app, this would trigger a re-sort of the results
+            // For demo purposes, we'll just log the sort value
+            console.log('Sort by:', this.getAttribute('data-sort'));
+          });
+        });
+      }
+      
+      // Clear all filters
+      const clearFiltersBtn = document.getElementById('clear-filters');
+      if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', function() {
+          // Reset all filter inputs
+          document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+            checkbox.checked = false;
+          });
+          
+          if (priceRange) {
+            priceRange.value = priceRange.max;
+            priceValue.textContent = '₹' + priceRange.value;
+          }
+        });
+      }
+    });
+  </script>
+{% endblock %}

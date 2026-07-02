@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<div class="faq-container">
+    <h1 class="faq-heading">FAQ(s)</h1>
+
+    <section class="faq-section">
+        <h3 class="faq-subheading">Ordering and Payments</h3>
+        <h4 class="faq-question">Q: How do I place an order?</h4>
+        <ul class="faq-list">
+            <li>Select the product(s) you want to purchase.</li>
+            <li>Add them to your cart and proceed to checkout.</li>
+            <li>Enter your shipping details and make the payment.</li>
+            <li>You will receive a confirmation email with your order details.</li>
+        </ul>
+
+        <h4 class="faq-question">Q: What payment methods are accepted?</h4>
+        <p class="faq-text">We accept the following payment methods:</p>
+        <ul class="faq-list">
+            <li>Credit/Debit Cards (Visa, MasterCard, etc.)</li>
+            <li>UPI and Net Banking</li>
+            <li>Digital Wallets (if applicable)</li>
+            <li>Cash on Delivery (if available)</li>
+        </ul>
+
+        <h4 class="faq-question">Q: Can I cancel or modify my order after placing it?</h4>
+        <p class="faq-text">Once an order is confirmed, it cannot be modified. However, you can cancel it before processing by contacting our support team.</p>
+    </section>
+
+    <hr>
+
+    <section class="faq-section">
+        <h3 class="faq-subheading">Shipping and Delivery</h3>
+
+        <h4 class="faq-question">Q: How long does shipping take?</h4>
+        <p class="faq-text">Shipping times vary depending on the brand and your location. On average:</p>
+        <ul class="faq-list">
+            <li><b>Domestic orders:</b> 5-10 business days</li>
+        </ul>
+        <p class="faq-note">Orders may get delayed as delivery is directly managed by the brands onboard.</p>
+
+        <h4 class="faq-question">Q: Do you offer international shipping?</h4>
+        <p class="faq-text">Yes, we ship globally. Shipping rates and delivery times will vary based on the destination.</p>
+
+        <h4 class="faq-question">Q: How can I track my order?</h4>
+        <p class="faq-text">Once your order is shipped, you will receive a tracking number via email.</p>
+    </section>
+
+    <hr>
+
+    <section class="faq-section">
+        <h3 class="faq-subheading">Returns, Refunds, and Exchange</h3>
+
+        <h4 class="faq-question">Q: What is your return policy?</h4>
+        <p class="faq-text">Currently, we do not offer returns, but you can apply for an exchange within 10 days, provided the product is unused and has the original tag.</p>
+    </section>
+
+    <hr>
+
+    <section class="faq-section">
+        <h3 class="faq-subheading">Products and Sizing</h3>
+
+        <h4 class="faq-question">Q: How do I know which size to order?</h4>
+        <p class="faq-text">Each brand may have its own sizing chart. You can find size guides on the product pages.</p>
+
+        <h4 class="faq-question">Q: Are the products authentic?</h4>
+        <p class="faq-text">Yes, all products sold on our platform come directly from the brands themselves, ensuring authenticity and quality.</p>
+    </section>
+
+    <hr>
+
+    <section class="faq-section">
+        <h3 class="faq-subheading">Collaboration and Partnerships</h3>
+
+        <h4 class="faq-question">Q: How can I list my brand?</h4>
+        <p class="faq-text">We welcome new brands. If you're interested in partnering with us, contact us at <a href="mailto:market@StyleAura.shop" class="faq-link">market@StyleAura.shop</a>.</p>
+
+        <h4 class="faq-question">Q: Do you offer influencer collaborations?</h4>
+        <p class="faq-text">Yes! Reach out to us with your profile details at <a href="mailto:market@StyleAura.shop" class="faq-link">market@StyleAura.shop</a>.</p>
+    </section>
+
+    <hr>
+
+    <section class="faq-section">
+        <h3 class="faq-subheading">Website and Policies</h3>
+
+        <h4 class="faq-question">Q: Is my data safe?</h4>
+        <p class="faq-text">Yes, we take data security seriously.</p>
+
+        <h4 class="faq-question">Q: How do I unsubscribe from marketing emails?</h4>
+        <p class="faq-text">Click the "Unsubscribe" link at the bottom of our emails or manage preferences in your account settings.</p>
+    </section>
+
+    <hr>
+
+    <section class="faq-section">
+        <h4 class="faq-question">✅ Still have questions?</h4>
+        <p class="faq-text">Contact us at:</p>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:market@StyleAura.shop" class="faq-link">market@StyleAura.shop</a></p>
+        <p><i class="fas fa-phone"></i> <span>+91 999999 9999</span></p>
+        <p class="faq-text">We're here to help! 🚀</p>
+    </section>
+</div>
+
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/faq.css' %}">
+{% endblock %}

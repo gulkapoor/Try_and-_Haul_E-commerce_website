@@ -1,0 +1,196 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block script %}
+  <script src="{% static 'userAddress.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<main>
+  <section class="address-section">
+    <div class="container">
+      <h1 class="section-title">Select Delivery Address</h1>
+      
+      <div class="checkout-container">
+        <div class="addresses-container">
+          {% if addresses %} <!-- if address of user exists -->
+            <div class="addresses-header">
+              <h2>Saved Addresses</h2>
+              <button id="add-address-btn" class="btn secondary-btn">Add New Address</button>
+            </div>
+
+            <!-- Address Form -->
+            <div id="address-form-container" class="address-form-container ishidden">
+              <form method="post" action="{% url 'storeOrderDetails' order_details.totalAmount order_details.totalMRP order_details.discount order_details.couponDiscount %}" id="new-address-form" class="address-form">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="full-name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="address">Address (House No, Building, Street, Area)</label>
+                  <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="state" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="pincode">Pincode</label>
+                    <input type="text" id="pincode" name="pincode" required>
+                  </div>
+                </div>
+
+                <button name="saveAddressBtn" type="submit" class="btn primary-btn">Save Address</button>
+              </form>
+            </div>
+
+            <div class="saved-addresses">
+              {% for address in addresses %}
+
+                <!-- Address Card -->
+                <div class="address-card {% if forloop.first %}selected{% endif %}">
+                  <input type="radio" name="delivery-address" id="{{ address.id }}" class="address-radio" {% if forloop.first %}checked{% endif %}>
+                  <label for="address-{{ address.id }}" class="address-content">
+                    <div class="address-header">
+                      <h3 class="address-name">{{ address.fullName }}</h3>
+                    </div>
+                    <p class="address-details">
+                      {{ address.address }} <br>
+                      {{ address.city }}, {{ address.state }} - {{ address.pincode }} <br>
+                      Phone: +91 {{ address.phone }} 
+                    </p>
+                  </label>
+                  <div class="address-actions">
+                    
+                    <!-- Edit or remove address -->
+                    <form method="post" action="{% url 'storeOrderDetails' order_details.totalAmount order_details.totalMRP order_details.discount order_details.couponDiscount %}" id="new-address-form" class="address-form">
+                      {% csrf_token %}
+                      <input type="hidden" name="addressID" value="{{ address.id }}">
+                      <button type="submit" name="removeAddress" class="remove-address" style="background: transparent; border: transparent; cursor: pointer;">Remove</button>
+                    </form>
+
+                  </div>
+                </div>
+
+              {% endfor %}
+            </div>
+
+          {% else %} <!-- if address of user doesn't exists -->
+
+            <div class="addresses-header">
+              <h2>Add Address</h2>
+            </div>
+
+            <!-- Address Form -->
+            <div id="address-form-container" class="address-form-container">
+              <form method="post" action="{% url 'storeOrderDetails' order_details.totalAmount order_details.totalMRP order_details.discount order_details.couponDiscount %}" id="new-address-form" class="address-form">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="full-name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="address">Address (House No, Building, Street, Area)</label>
+                  <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="state" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="pincode">Pincode</label>
+                    <input type="text" id="pincode" name="pincode" required>
+                  </div>
+                </div>
+
+                <button name="addAddressBtn" type="submit" class="btn primary-btn">Save Address</button>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+        
+        <!-- Price Details -->
+        <div class="price-details-container">
+          <div class="price-details">
+            <h3 class="price-details-title">Price Details</h3>
+            <div class="price-breakdown">
+              <div class="price-row">
+                <span>Total MRP</span>
+                <span id="total-mrp">₹{{ order_details.totalMRP }}</span>
+              </div>
+              <div class="price-row">
+                <span>Discount on MRP</span>
+                <span id="discount-on-mrp" class="discount-text">₹{{ order_details.discount }}</span>
+              </div>
+              <div class="price-row">
+                <span>Coupon Discount</span>
+                {% if order_details.couponDiscount %}
+                  <span id="coupon-discount" class="discount-text">₹{{ order_details.couponDiscount }}</span>
+                {% else %}
+                  <span id="coupon-discount" class="discount-text">-</span>
+                {% endif %}
+              </div>
+              <div class="price-row">
+                <span>Shipping</span>
+                <span id="shipping-fee" class="discount-text">FREE!</span>
+              </div>
+              <div class="price-row total">
+                <span>Total Amount</span>
+                <span id="total-amount">₹{{ order_details.totalAmount }}</span>
+              </div>
+            </div>
+
+            <!-- Take to payment page -->
+            {% if addresses %}
+              <!-- Loader -->
+              <div id="loader" style="display: none;">Processing...</div>
+             
+              <form id="paymentForm" method="post" action="{% url 'process_order' %}">
+                {% csrf_token %}
+                <input type="hidden" name="amount" value="{{ order_details.totalAmount }}">
+                <input type="hidden" name="cartItems" value='{{ cartItems|safe }}'>
+                <input type="hidden" name="discount" value="{{ order_details.discount }}">
+                <input type="hidden" name="couponDiscount" value="{{ order_details.couponDiscount }}">
+                <input type="hidden" name="selectedAddress" id="selectedAddress">
+                <button type="submit" name="continueToPaymentBtn" id="continue-to-payment" class="btn primary-btn place-order-btn">Continue to Payment</button>
+              </form>
+
+
+            {% endif %} 
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+</main>
+
+{% endblock %}
+  

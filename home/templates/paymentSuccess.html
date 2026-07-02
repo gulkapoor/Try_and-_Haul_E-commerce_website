@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+{% endblock %}
+
+{% block body %}
+<main>
+  <section class="order-success-section">
+    <div class="container">
+      <div class="success-container">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h1 class="success-title">Order Placed Successfully!</h1>
+        <p class="success-message">Thank you for your purchase. Your order has been confirmed and will be shipped soon.</p>
+        
+        <div class="order-summary">
+          <h2 class="summary-title">Order Summary</h2>
+          
+          <div class="order-info-container">
+            <div class="order-info">
+              <span class="info-label">Order ID:</span>
+              <span class="info-value">{{ payment.payment_id }}</span>
+            </div>
+            <div class="order-info">
+              <span class="info-label">Order Time:</span>
+              <span class="info-value">{{ payment.created_at }}</span>
+            </div>
+            <div class="order-info">
+              <span class="info-label">Payment Status:</span>
+              <span class="info-value">{{ payment.payment_status }}</span>
+            </div>
+          </div>
+          
+          <div class="order-items">
+            <h3 class="items-title">Items Ordered</h3>
+            
+            <div class="items-container">
+              {% for item in items %}
+                <div class="order-item">
+                    <div class="item-image">
+                    <img src="{{ item.image }}" alt="{{ item.product.name }}">
+                    </div>
+                    <div class="item-details">
+                    <h4 class="item-name">{{ item.listing.name }}</h4>
+                    <p class="item-brand">Brand: {{ item.listing.brand }}</p>
+                    <div class="item-meta">
+                        <span class="item-size">Size: {{ item.size }}</span>
+                        <span class="item-quantity">Qty: {{ item.quantity }}</span>
+                    </div>
+                    </div>
+                </div>
+              {% empty %}
+                <p class="no-items">No items in this order.</p>
+              {% endfor %}
+            </div>
+          </div>
+          
+          <div class="price-summary">
+            <div class="price-row">
+              <span>Total Amount Paid</span>
+              <span>₹{{ payment.amount }}</span>
+            </div>            
+            {% if payment.order.discount > 0 %}
+            <div class="savings-highlight" style="margin-top: 20px;">
+              <div class="savings-icon">
+                <i class="fas fa-piggy-bank"></i>
+              </div>
+              <div class="savings-text">
+                You saved ₹{{ payment.order.discount }} on this order!
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="success-actions">
+          <a href="{% url 'allProducts' %}" class="btn secondary-btn">Shop More</a>
+          <a href="{% url 'orders' %}" class="btn primary-btn">View Orders</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Trigger confetti animation
+    launchConfetti();
+    
+    function launchConfetti() {
+      // First burst
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+      
+      // Cannon left
+      setTimeout(function() {
+        confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+      }, 250);
+      
+      // Cannon right
+      setTimeout(function() {
+        confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+      }, 400);
+      
+      // Final burst
+      setTimeout(function() {
+        confetti({
+          particleCount: 150,
+          spread: 100,
+          origin: { y: 0.7 }
+        });
+      }, 1000);
+    }
+  });
+</script>
+<script>
+    const orderId = sessionStorage.getItem("latestOrderId");
+  
+    if (orderId) {
+        // Optionally, clear it after reading
+        sessionStorage.removeItem("latestOrderId");
+        window.location.href = `/payment-success/?order_id=${orderId}`;
+    }
+  </script>
+{% endblock %}

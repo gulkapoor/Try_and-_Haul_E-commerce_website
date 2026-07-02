@@ -1,0 +1,245 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load stock_filters %}  {# Load your custom filters #}
+
+{% block body %}
+
+<main>
+    <section class="cart-section">
+        <div class="container">
+            <h2 class="section-title">Your Bag</h2>
+
+            {% if listings %}
+                <div class="cart-container">
+                    <div class="cart-items-container">
+                        <div class="cart-items">
+                            {% for list in listings %}
+                                <div class="cart-item">
+                                    <div class="item-image">
+                                        <img src="{{ list.cartItem.images.first.image.url }}" alt="{{ list.cartItem.name }}">
+                                    </div>
+                                    <div class="item-details">
+                                        <h3 class="item-name">{{ list.cartItem.name }}</h3>
+                                        <p class="item-brand">Brand: {{ list.cartItem.brand }}</p>
+                                        <div class="item-pricing">
+                                            {% if list.cartItem.discountedPrice %}
+                                                <span class="item-discounted-price" data-discounted-price="{{ list.cartItem.discountedPrice }}">₹ {{ list.cartItem.discountedPrice }}</span>
+                                                <span class="item-price" data-price="{{ list.cartItem.price }}">₹{{ list.cartItem.price }}</span>
+                                            {% else %}
+                                                <span class="item-price" style="color: #8B4513; text-decoration: solid; font-weight: 700; font-size: 16px;" data-price="{{ list.cartItem.price }}">₹{{ list.cartItem.price }}</span>
+                                            {% endif %}
+                                        </div>
+
+                                        {% if request.session.cart_message and list.id == request.session.cart_message.cart_item_id %}
+                                            <div class="alert alert-success" style="color: green;">
+                                                {{ request.session.cart_message.message }}
+                                            </div>
+                                        {% endif %}
+
+                                        <label class="item-size" for="item-size">Size: {{ list.cartSize }}</label>
+
+                                        <div class="item-actions" style="margin-top: 15px;">
+                                            <form method="POST" action="{% url 'item' list.cartItem.category.slug list.cartItem.productType.slug list.cartItem.slug %}">
+                                                {% csrf_token %}
+                                                <div class="quantity-selector">
+                                                    <button type="submit" name="decreaseQuantity" class="quantity-btn minus">-</button>
+                                                    <input type="number" class="quantity-input" value="{{ list.cartQuantity }}" min="1" {% if stock_issues %} {% if list.id in stock_issues %} max="{{ stock_issues.list.id.available }}" {% endif %} {% endif %} disabled>
+                                                    <input type="hidden" name="size" value="{{ list.cartSize }}">
+                                                    <button type="submit" name="increaseQuantity" class="quantity-btn plus">+</button>
+                                                </div>
+                                            </form>
+
+                                            <form method="POST" action="{% url 'item' list.cartItem.category.slug list.cartItem.productType.slug list.cartItem.slug %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="size" value="{{ list.cartSize }}">
+                                                <button type="submit" name="removeCartItemFromCart" class="remove-item" style="background-color: transparent; border: transparent; cursor: pointer;">Remove</button>
+                                            </form>
+                                        </div>
+
+                                        {% if stock_issues and list.id in stock_issues %}
+                                            <p style="color: rgb(184, 49, 49); margin-top: 10px;">
+                                                <span style="font-weight: 700;">Insufficient Stock</span> <span style="font-weight: 500; color: #8B4513; font-size: small;">Try Decreasing the quantity</span>
+                                            </p>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="coupon-container">
+                            <div id="coupon-section">
+                                <h3>Apply Coupon</h3>
+                                <form method="POST"  id="coupon-form" class="coupon-form">
+                                    <input type="text" id="coupon-input" placeholder="Enter coupon code">
+                                    <button type="submit" class="btn primary-btn">Apply</button>
+                                </form>
+                            </div>
+                            <div id="applied-coupon-section" class="ishidden">
+                                <div class="applied-coupon">
+                                    <div class="coupon-info">
+                                        <span class="coupon-code" id="applied-coupon"></span>
+                                        <span class="coupon-value">Applied successfully</span>
+                                    </div>
+                                    <a href="#" id="remove-coupon" class="remove-coupon">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="price-details-container">
+                        <div class="price-details">
+                            <h3 class="price-details-title">Price Details</h3>
+                            <div class="price-breakdown">
+                                <div class="price-row">
+                                    <span>Total MRP</span>
+                                    <span id="total-mrp">-</span>
+                                </div>
+                                <div class="price-row">
+                                    <span>Discount on MRP</span>
+                                    <span id="discount-on-mrp" class="discount-text">-</span>
+                                </div>
+                                <div class="price-row">
+                                    <span>Coupon Discount</span>
+                                    <span id="coupon-discount" class="discount-text">-</span>
+                                </div>
+                                <div class="price-row">
+                                    <span>Shipping</span>
+                                    <span id="shipping-fee" class="discount-text">FREE!</span>
+                                </div>
+                                <div class="price-row total">
+                                    <span>Total Amount</span>
+                                    <span id="total-amount">-</span>
+                                </div>
+                            </div>
+                            <a id="place-order-btn" href="#" class="btn primary-btn place-order-btn {% if stock_issues %} disabled {% endif %}">Place Order</a>
+                            {% if stock_issues %}
+                                <p style="color: rgb(184, 49, 49); margin-top: 10px; text-align: justify; font-size: medium;">
+                                    Please correct the items with insufficient stock before placing your order.
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="empty-wishlist">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h2>Your Cart is Empty</h2>
+                    <p>Save your favorite items to your wishlist and they'll appear here.</p>
+                    <a href="{% url 'allProducts' %}" class="btn primary-btn">Start Shopping</a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'static/script.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInputs = document.querySelectorAll('.quantity-input');
+            const placeOrderBtn = document.getElementById('place-order-btn');
+
+            function updateCartTotals() {
+                let totalMRP = 0;
+                let totalDiscount = 0;
+
+                quantityInputs.forEach(input => {
+                    const cartItem = input.closest('.cart-item');
+                    const price = parseFloat(cartItem.querySelector('.item-price').getAttribute('data-price'));
+                    let discountedPrice = parseFloat(cartItem.querySelector('.item-discounted-price')?.getAttribute('data-discounted-price'));
+                    discountedPrice = isNaN(discountedPrice) ? price : discountedPrice;
+
+                    const quantity = parseInt(input.value);
+
+                    totalMRP += price * quantity;
+                    totalDiscount += (price - discountedPrice) * quantity;
+                });
+
+                let couponDiscount = parseFloat(document.getElementById('coupon-discount').textContent.replace('₹', ''));
+                couponDiscount = isNaN(couponDiscount) ? 0 : couponDiscount;
+                const totalAmount = totalMRP - totalDiscount - couponDiscount;
+
+                document.getElementById('total-mrp').textContent = '₹' + totalMRP.toFixed(2);
+                document.getElementById('discount-on-mrp').textContent = '₹' + totalDiscount.toFixed(2);
+                document.getElementById('total-amount').textContent = '₹' + totalAmount.toFixed(2);
+            }
+
+            updateCartTotals();
+
+            placeOrderBtn.addEventListener('click', function(event) {
+                if (placeOrderBtn.classList.contains('disabled')) {
+                    event.preventDefault();
+                    alert('Please correct the items with insufficient stock before placing your order.');
+                    return;
+                }
+
+                let totalMRP = parseFloat(document.getElementById('total-mrp').textContent.replace('₹', '').trim()) || 0;
+                let discount = parseFloat(document.getElementById('discount-on-mrp').textContent.replace('₹', '').trim()) || 0;
+                let couponDiscount = parseFloat(document.getElementById('coupon-discount').textContent.replace('₹', '').trim()) || 0;
+                let totalAmount = parseFloat(document.getElementById('total-amount').textContent.replace('₹', '').trim()) || 0;
+
+                totalAmount = totalAmount.toFixed(2);
+                totalMRP = totalMRP.toFixed(2);
+                discount = discount.toFixed(2);
+                couponDiscount = couponDiscount.toFixed(2);
+
+                let placeOrderURL = `/store-order/${totalAmount}/${totalMRP}/${discount}/${couponDiscount}/`;
+                window.location.href = placeOrderURL;
+            });
+
+            const couponForm = document.getElementById("coupon-form");
+            const couponInput = document.getElementById("coupon-input");
+            const couponDiscountElement = document.getElementById("coupon-discount");
+            const appliedCouponSection = document.getElementById("applied-coupon-section");
+            const appliedCouponCode = document.getElementById("applied-coupon");
+            const removeCouponBtn = document.getElementById("remove-coupon");
+
+            couponForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                let couponCode = couponInput.value.trim();
+                let totalAmount = parseFloat(document.getElementById("total-amount").textContent.replace("₹", "").trim());
+
+                if (couponCode === "") {
+                    alert("Please enter a coupon code.");
+                    return;
+                }
+
+                fetch("/apply-coupon/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    },
+                    body: new URLSearchParams({
+                        coupon_code: couponCode,
+                        total_amount: totalAmount
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        couponDiscountElement.textContent = `₹${data.discount.toFixed(2)}`;
+                        appliedCouponCode.textContent = couponCode;
+                        appliedCouponSection.classList.remove("ishidden");
+
+                        let newTotalAmount = totalAmount - data.discount;
+                        document.getElementById("total-amount").textContent = `₹${newTotalAmount.toFixed(2)}`;
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+
+            removeCouponBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+                couponDiscountElement.textContent = "-";
+                appliedCouponSection.classList.add("ishidden");
+                updateCartTotals();
+            });
+        });
+    </script>
+{% endblock %}

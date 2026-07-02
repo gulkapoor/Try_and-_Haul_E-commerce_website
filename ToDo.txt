@@ -1,0 +1,38 @@
+make changing selected work better
+
+enable production mode
+
+remove print commands from views.py
+remove console.log
+
+
+deploy
+image when being shared
+
+
+
+
+
+
+
+Future: Infinite auto Scroll or Pagination
+	items not in stock show cross	
+	facebook and twitter links
+
+
+
+Next jS
+SEO
+mongo db
+
+
+
+MAIL:
+
+
+
+
+
+
+
+
