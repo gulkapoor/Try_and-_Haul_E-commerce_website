@@ -42,7 +42,7 @@ A full-stack fashion e-commerce web application built using **Django** and **Pos
 
 
 
-## 💡 Key Functionalities
+##  Key Functionalities
 
 - Secure user authentication with Django's built-in authentication framework
 - Product browsing and catalog management
@@ -53,7 +53,7 @@ A full-stack fashion e-commerce web application built using **Django** and **Pos
 
 
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - Payment Gateway Integration (Stripe/Razorpay)
 - Customer Reviews & Ratings
